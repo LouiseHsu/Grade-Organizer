@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,6 @@ public class Main {
     private JFrame frame;
 
     private JPanel panel;
-
-    private JButton button;
 
     private DefaultTableModel model;
 
@@ -41,16 +40,17 @@ public class Main {
         model = new DefaultTableModel();
         table = new JTable(model);
         JScrollPane sPane = new JScrollPane();
-        sPane.setPreferredSize(new Dimension(200, 300));
+        sPane.setPreferredSize(new Dimension(300, 400));
 
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 0.5;
         c.weighty = 0.2;
-        button = new JButton("Insert");
+        JButton insertB = new JButton("Insert");
+        JButton getAverageB = new JButton("Get Average");
         JLabel label = new JLabel("Course Parameters:");
 
-        //think - do i need to shove these in an array at all?
+        //think - do i need to shove these in an array at all? Maybe also add labels too?
         List <JTextField> insertTextFields = new ArrayList<>();
         nameField = new JTextField(8);
         gradeField = new JTextField(3);
@@ -74,34 +74,47 @@ public class Main {
         panel.add(table);
 
         //add insert button
-        c.gridx = 0;
-        c.gridy = insertTextFields.size() + 1;
-        panel.add(button, c);
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.weighty = c.weightx = 0;
+        c.gridx = 1;
+        c.gridy = 7;
+        c.insets = (new Insets(0,20,0,20));
+        panel.add(insertB, c);
+        c.gridy = 8;
+        panel.add(getAverageB, c);
 
         //add label
-        c.gridx = 0;
+        c.gridx = 1;
         c.gridy = 0;
         panel.add(label, c);
 
-        //add table
-        c.weighty = 0;
-        c.gridx = 2;
-        c.gridy = 3;
-        sPane.getViewport().add(table);
-        panel.add(sPane, c);
-
         //add text fields
         for (int i = 0; i < insertTextFields.size(); i++) {
-            c.gridx = 0;
-            c.gridy = i+1;
+            c.gridwidth = 1;
+            c.gridheight = 1;
+            c.weighty = c.weightx = 0;
+            c.gridx = 1;
+            c.gridy = i+2;
             panel.add(insertTextFields.get(i), c);
 
         }
 
+        //add table
+        c.gridwidth = 2;
+        c.gridheight = 10;
+        c.weightx = c.weighty = 1.0;
+        c.gridx = 2;
+        c.gridy = 0;
+        c.insets = (new Insets(0,0,0,0));
+
+        sPane.getViewport().add(table);
+        panel.add(sPane, c);
+
 
         frame.add(panel);
 
-        button.addActionListener(new ActionListener() {
+        insertB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                for (int i = 0; i < insertTextFields.size(); i ++) {
@@ -122,6 +135,16 @@ public class Main {
                    insertTextFields.get(i).setText("");
                }
 
+            }
+        });
+
+        getAverageB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double avg = Organizer.getOrganizer().getAverage();
+                DecimalFormat df = new DecimalFormat("###.##");
+                JOptionPane.showMessageDialog(null,"Your average is " + avg);
+                // fix weird ass rounding issue
             }
         });
 

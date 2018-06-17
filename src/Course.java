@@ -26,6 +26,6 @@ public class Course {
     }
 
     double getGrade() {
-        return grade.getTotalGrade();
+        return grade.getGrade();
     }
 }

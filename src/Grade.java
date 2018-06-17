@@ -65,6 +65,10 @@ public class Grade {
         return totalGrade;
     }
 
+    double getGrade() {
+        return totalGrade;
+    }
+
     void addPortion (int numParts, boolean compound, double worth, int grade, String type) throws OverWorthException {
         gradesPortions.add(new GradePortion(numParts, compound, worth, grade, type));
 

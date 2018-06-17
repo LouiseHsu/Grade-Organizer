@@ -36,8 +36,9 @@ public class Organizer {
     public double getAverage() {
         int sum = 0;
         for (int i = 0; i < courses.size(); i++) {
-            sum+= courses.get(0).getGrade();
+            sum+= courses.get(i).getGrade();
         }
+        System.out.println(sum/courses.size());
         return sum/courses.size();
     }
 }
