@@ -14,6 +14,10 @@ public class Main {
 
     private JButton button;
 
+    private DefaultTableModel model;
+
+    private JTable table;
+
     private JTextField nameField;
     private JTextField gradeField;
     private JTextField yearField;
@@ -30,14 +34,14 @@ public class Main {
 
     public void gui() {
         frame = new JFrame("Testing, testing");
-        frame.setSize(500, 500);
+        frame.setMinimumSize(new Dimension(600, 600));
         frame.setResizable(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable(model);
+        model = new DefaultTableModel();
+        table = new JTable(model);
         JScrollPane sPane = new JScrollPane();
-        sPane.setPreferredSize(new Dimension(250, 250));
+        sPane.setPreferredSize(new Dimension(200, 300));
 
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +70,7 @@ public class Main {
         model.addColumn("Grade");
         model.addColumn("Year");
         model.addColumn("Credits");
-        model.addColumn("Class Average");
+        model.addColumn("Average");
         panel.add(table);
 
         //add insert button
@@ -80,6 +84,7 @@ public class Main {
         panel.add(label, c);
 
         //add table
+        c.weighty = 0;
         c.gridx = 2;
         c.gridy = 3;
         sPane.getViewport().add(table);
@@ -111,6 +116,7 @@ public class Main {
                int avg = Integer.parseInt(avgField.getText());
 
                Organizer.getOrganizer().addCourse(true, name, grade, year, credits, avg);
+               model.addRow(new Object[] {name, grade, year, credits, avg});
 
                for (int i = 0; i < insertTextFields.size(); i ++) {
                    insertTextFields.get(i).setText("");
