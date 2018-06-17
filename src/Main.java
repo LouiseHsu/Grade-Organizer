@@ -14,8 +14,6 @@ public class Main {
 
     private JButton button;
 
-    private JLabel label;
-
     private JTextField nameField;
     private JTextField gradeField;
     private JTextField yearField;
@@ -36,10 +34,17 @@ public class Main {
         frame.setResizable(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        DefaultTableModel model = new DefaultTableModel();
+        JTable table = new JTable(model);
+        JScrollPane sPane = new JScrollPane();
+        sPane.setPreferredSize(new Dimension(250, 250));
+
         panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        c.weightx = 0.5;
+        c.weighty = 0.2;
         button = new JButton("Insert");
-        label = new JLabel("Course Parameters:");
+        JLabel label = new JLabel("Course Parameters:");
 
         //think - do i need to shove these in an array at all?
         List <JTextField> insertTextFields = new ArrayList<>();
@@ -56,6 +61,14 @@ public class Main {
         insertTextFields.add(creditsField);
         insertTextFields.add(avgField);
 
+        //insert columns on table
+        model.addColumn("Name");
+        model.addColumn("Grade");
+        model.addColumn("Year");
+        model.addColumn("Credits");
+        model.addColumn("Class Average");
+        panel.add(table);
+
         //add insert button
         c.gridx = 0;
         c.gridy = insertTextFields.size() + 1;
@@ -66,15 +79,19 @@ public class Main {
         c.gridy = 0;
         panel.add(label, c);
 
+        //add table
+        c.gridx = 2;
+        c.gridy = 3;
+        sPane.getViewport().add(table);
+        panel.add(sPane, c);
+
         //add text fields
         for (int i = 0; i < insertTextFields.size(); i++) {
             c.gridx = 0;
             c.gridy = i+1;
             panel.add(insertTextFields.get(i), c);
-        }
 
-        DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable();
+        }
 
 
         frame.add(panel);
